@@ -9,10 +9,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.christian.exploracolombiaapp.ui.theme.ExploraColombiaAppTheme
 import me.christian.exploracolombiaapp.LoginScreen
+import me.christian.exploracolombiaapp.RegisterScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -20,8 +25,29 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            LoginScreen(onLoginSuccess = {}, onNavigateToRegister = {})
+            val myNavController = rememberNavController()
+            NavHost(
+                navController = myNavController,
+                startDestination = "Login",
+                modifier = Modifier.fillMaxSize()
 
+            ){
+                composable(route = "Login"){
+                    LoginScreen(
+                        onLoginSuccess = { myNavController.navigate({}) },
+                        onNavigateToRegister = { myNavController.navigate({}) }
+                    )
+                }
+                composable(route = "Register"){
+                    RegisterScreen(
+                        onRegisterSuccess = { myNavController.navigate({}) },
+                        onNavigateToLogin = { myNavController.navigate({}) }
+                    )
+
+
+                }
+
+            }
         }
     }
 }
